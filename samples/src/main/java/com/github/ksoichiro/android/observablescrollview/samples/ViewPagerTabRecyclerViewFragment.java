@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 
@@ -54,7 +55,7 @@ public class ViewPagerTabRecyclerViewFragment extends BaseFragment {
                     }
                 });
             }
-            recyclerView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
+            recyclerView.setRecyclerViewCallbacks((ObservableRecyclerViewCallbacks) parentActivity);
         }
         return view;
     }

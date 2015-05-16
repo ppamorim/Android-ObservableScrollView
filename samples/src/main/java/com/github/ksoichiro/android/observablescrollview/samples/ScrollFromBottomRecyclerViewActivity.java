@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -38,7 +39,8 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * Please don't submit it as a new issue.
  * (Pull request to fix this is greatly appreciated!)
  */
-public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implements
+    ObservableRecyclerViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;
@@ -57,7 +59,7 @@ public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implement
         mToolbarView = findViewById(R.id.toolbar);
 
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
-        mRecyclerView.setScrollViewCallbacks(this);
+        mRecyclerView.setRecyclerViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
         View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);

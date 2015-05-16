@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
 /**
@@ -45,7 +46,8 @@ public class ViewPagerTabFragmentRecyclerViewFragment extends BaseFragment {
         if (viewGroup != null) {
             recyclerView.setTouchInterceptionViewGroup((ViewGroup) viewGroup.findViewById(R.id.container));
             if (parentFragment instanceof ObservableScrollViewCallbacks) {
-                recyclerView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentFragment);
+                recyclerView.setRecyclerViewCallbacks(
+                    (ObservableRecyclerViewCallbacks) parentFragment);
             }
         }
         return view;

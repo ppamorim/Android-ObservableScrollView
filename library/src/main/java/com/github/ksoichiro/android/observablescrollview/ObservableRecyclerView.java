@@ -32,18 +32,18 @@ import android.view.ViewGroup;
  * Before using this, please consider to use the RecyclerView.OnScrollListener
  * provided by the support library officially.
  */
-public class ObservableRecyclerView extends RecyclerView implements Scrollable {
+public class ObservableRecyclerView extends RecyclerView implements RecyclerViewScrollable {
 
     // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
     private int mPrevScrolledChildrenHeight;
-    private int mPrevScrollY;
-    private int mScrollY;
+    private int mPrevScrollValue;
+    private int mScrollValue;
     private SparseIntArray mChildrenHeights;
 
     // Fields that don't need to be saved onSaveInstanceState
-    private ObservableScrollViewCallbacks mCallbacks;
+    private ObservableRecyclerViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -72,8 +72,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         mPrevFirstVisiblePosition = ss.prevFirstVisiblePosition;
         mPrevFirstVisibleChildHeight = ss.prevFirstVisibleChildHeight;
         mPrevScrolledChildrenHeight = ss.prevScrolledChildrenHeight;
-        mPrevScrollY = ss.prevScrollY;
-        mScrollY = ss.scrollY;
+        mPrevScrollValue = ss.prevScrollValue;
+        mScrollValue = ss.scrollValue;
         mChildrenHeights = ss.childrenHeights;
         super.onRestoreInstanceState(ss.getSuperState());
     }
@@ -85,8 +85,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         ss.prevFirstVisiblePosition = mPrevFirstVisiblePosition;
         ss.prevFirstVisibleChildHeight = mPrevFirstVisibleChildHeight;
         ss.prevScrolledChildrenHeight = mPrevScrolledChildrenHeight;
-        ss.prevScrollY = mPrevScrollY;
-        ss.scrollY = mScrollY;
+        ss.prevScrollValue = mPrevScrollValue;
+        ss.scrollValue = mScrollValue;
         ss.childrenHeights = mChildrenHeights;
         return ss;
     }
@@ -147,24 +147,24 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
                     }
-                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
+                    mScrollValue = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
+                    mCallbacks.onScrollChanged(mScrollValue, mFirstScroll, mDragging);
                     if (mFirstScroll) {
                         mFirstScroll = false;
                     }
 
-                    if (mPrevScrollY < mScrollY) {
+                    if (mPrevScrollValue < mScrollValue) {
                         //down
                         mScrollState = ScrollState.UP;
-                    } else if (mScrollY < mPrevScrollY) {
+                    } else if (mScrollValue < mPrevScrollValue) {
                         //up
                         mScrollState = ScrollState.DOWN;
                     } else {
                         mScrollState = ScrollState.STOP;
                     }
-                    mPrevScrollY = mScrollY;
+                    mPrevScrollValue = mScrollValue;
                 }
             }
         }
@@ -261,9 +261,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         return super.onTouchEvent(ev);
     }
 
-    @Override
-    public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
-        mCallbacks = listener;
+    @Override public void setRecyclerViewCallbacks(ObservableRecyclerViewCallbacks listener) {
+        this.mCallbacks = listener;
     }
 
     @Override
@@ -306,7 +305,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY;
+        return mScrollValue;
     }
 
     private void init() {
@@ -333,8 +332,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         int prevFirstVisiblePosition;
         int prevFirstVisibleChildHeight = -1;
         int prevScrolledChildrenHeight;
-        int prevScrollY;
-        int scrollY;
+        int prevScrollValue;
+        int scrollValue;
         SparseIntArray childrenHeights;
 
         // This keeps the parent(RecyclerView)'s state
@@ -366,8 +365,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
             prevFirstVisiblePosition = in.readInt();
             prevFirstVisibleChildHeight = in.readInt();
             prevScrolledChildrenHeight = in.readInt();
-            prevScrollY = in.readInt();
-            scrollY = in.readInt();
+            prevScrollValue = in.readInt();
+            scrollValue = in.readInt();
             childrenHeights = new SparseIntArray();
             final int numOfChildren = in.readInt();
             if (0 < numOfChildren) {
@@ -391,8 +390,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
             out.writeInt(prevFirstVisiblePosition);
             out.writeInt(prevFirstVisibleChildHeight);
             out.writeInt(prevScrolledChildrenHeight);
-            out.writeInt(prevScrollY);
-            out.writeInt(scrollY);
+            out.writeInt(prevScrollValue);
+            out.writeInt(scrollValue);
             final int numOfChildren = childrenHeights == null ? 0 : childrenHeights.size();
             out.writeInt(numOfChildren);
             if (0 < numOfChildren) {

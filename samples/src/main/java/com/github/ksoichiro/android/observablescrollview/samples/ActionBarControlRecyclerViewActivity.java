@@ -21,10 +21,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-public class ActionBarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class ActionBarControlRecyclerViewActivity extends BaseActivity implements
+    ObservableRecyclerViewCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class ActionBarControlRecyclerViewActivity extends BaseActivity implement
         ObservableRecyclerView recyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setScrollViewCallbacks(this);
+        recyclerView.setRecyclerViewCallbacks(this);
         setDummyData(recyclerView);
     }
 

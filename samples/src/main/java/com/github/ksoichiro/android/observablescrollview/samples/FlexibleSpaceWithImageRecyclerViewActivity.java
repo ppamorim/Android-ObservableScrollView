@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity implements
+    ObservableRecyclerViewCallbacks {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
@@ -37,7 +39,7 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
         mActionBarSize = getActionBarSize();
 
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
-        mRecyclerView.setScrollViewCallbacks(this);
+        mRecyclerView.setRecyclerViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
         final View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);
@@ -85,21 +87,21 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
 
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+    public void onScrollChanged(int scrollValue, boolean firstScroll, boolean dragging) {
         // Translate overlay and image
         float flexibleRange = mFlexibleSpaceImageHeight - mActionBarSize;
         int minOverlayTransitionY = mActionBarSize - mOverlayView.getHeight();
-        ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
-        ViewHelper.setTranslationY(mImageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+        ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollValue, minOverlayTransitionY, 0));
+        ViewHelper.setTranslationY(mImageView, ScrollUtils.getFloat(-scrollValue / 2, minOverlayTransitionY, 0));
 
         // Translate list background
-        ViewHelper.setTranslationY(mRecyclerViewBackground, Math.max(0, -scrollY + mFlexibleSpaceImageHeight));
+        ViewHelper.setTranslationY(mRecyclerViewBackground, Math.max(0, -scrollValue + mFlexibleSpaceImageHeight));
 
         // Change alpha of overlay
-        ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+        ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollValue / flexibleRange, 0, 1));
 
         // Scale title text
-        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
+        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollValue) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
         setPivotXToTitle();
         ViewHelper.setPivotY(mTitleView, 0);
         ViewHelper.setScaleX(mTitleView, scale);
@@ -107,7 +109,7 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
 
         // Translate title text
         int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
-        int titleTranslationY = maxTitleTranslationY - scrollY;
+        int titleTranslationY = maxTitleTranslationY - scrollValue;
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
     }
 

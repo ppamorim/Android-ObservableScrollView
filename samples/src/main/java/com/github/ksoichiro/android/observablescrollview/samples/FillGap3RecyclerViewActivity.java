@@ -19,14 +19,16 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
-public class FillGap3RecyclerViewActivity extends FillGap3BaseActivity<ObservableRecyclerView> implements ObservableScrollViewCallbacks {
+public class FillGap3RecyclerViewActivity extends FillGap3BaseRecyclerActivity<ObservableRecyclerView>
+    implements ObservableRecyclerViewCallbacks {
 
     @Override
     protected ObservableRecyclerView createScrollable() {
         ObservableRecyclerView recyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
-        recyclerView.setScrollViewCallbacks(this);
+        recyclerView.setRecyclerViewCallbacks(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         setDummyDataFew(recyclerView);

@@ -26,11 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
 import java.util.ArrayList;
 
-public class SlidingUpRecyclerViewActivity extends SlidingUpBaseActivity<ObservableRecyclerView> implements ObservableScrollViewCallbacks {
+public class SlidingUpRecyclerViewActivity extends SlidingUpBaseRecyclerActivity<ObservableRecyclerView>
+    implements ObservableRecyclerViewCallbacks {
 
     @Override
     protected int getLayoutResId() {
@@ -40,7 +42,7 @@ public class SlidingUpRecyclerViewActivity extends SlidingUpBaseActivity<Observa
     @Override
     protected ObservableRecyclerView createScrollable() {
         ObservableRecyclerView recyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
-        recyclerView.setScrollViewCallbacks(this);
+        recyclerView.setRecyclerViewCallbacks(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new CustomAdapter(this, getDummyData()));

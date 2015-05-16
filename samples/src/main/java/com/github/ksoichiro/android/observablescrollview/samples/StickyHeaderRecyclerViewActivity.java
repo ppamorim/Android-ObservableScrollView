@@ -24,13 +24,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class StickyHeaderRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class StickyHeaderRecyclerViewActivity extends BaseActivity implements
+    ObservableRecyclerViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;
@@ -49,7 +51,7 @@ public class StickyHeaderRecyclerViewActivity extends BaseActivity implements Ob
         mToolbarView = findViewById(R.id.toolbar);
 
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
-        mRecyclerView.setScrollViewCallbacks(this);
+        mRecyclerView.setRecyclerViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
         View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);

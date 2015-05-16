@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
@@ -44,7 +45,8 @@ import java.util.ArrayList;
  * <p/>
  * https://github.com/ksoichiro/Android-ObservableScrollView/issues/18
  */
-public class HandleTouchRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class HandleTouchRecyclerViewActivity extends BaseActivity implements
+    ObservableRecyclerViewCallbacks {
     private static final String TAG = HandleTouchRecyclerViewActivity.class.getSimpleName();
 
     @Override
@@ -55,7 +57,7 @@ public class HandleTouchRecyclerViewActivity extends BaseActivity implements Obs
         ObservableRecyclerView recyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setScrollViewCallbacks(this);
+        recyclerView.setRecyclerViewCallbacks(this);
         recyclerView.setAdapter(new CustomAdapter(this, getDummyData()));
     }
 
